@@ -1,0 +1,28 @@
+//This is a script that you can paste in the web.whatsapp.com and can scrape all the phone numbers of members in any whatsapp group.
+
+const elementsToScrape = document.querySelectorAll("._2h0YP");
+const scrapedData = [];
+
+elementsToScrape.forEach((element) => {
+  const data = element.textContent.trim();
+  scrapedData.push(data);
+});
+
+let dataString = scrapedData.join("\n");
+
+const blob = new Blob([dataString], { type: "text/plain" });
+
+const url = URL.createObjectURL(blob);
+
+const link = document.createElement("a");
+link.href = url;
+link.download = "scraped_numbers.txt";
+link.style.display = "none";
+
+document.body.appendChild(link);
+
+link.click();
+
+document.body.removeChild(link);
+
+URL.revokeObjectURL(url);
